@@ -4,7 +4,8 @@ import "app/internal/domain/model"
 
 type UserRepository interface {
 	GenericRepository[model.User, CreateUserInput]
-	UpdateUserInfo(id uint, updates UpdateUserInfoInput) error
+	FindByEmail(email string) (*model.User, error)
+	UpdateRefreshToken(id uint, refreshToken string) error
 	UpdateUserPassword(id uint, updates UpdateUserPasswordInput) error
 }
 
@@ -13,11 +14,6 @@ type CreateUserInput struct {
 	Lastname       string
 	Email          string
 	HashedPassword string
-}
-
-type UpdateUserInfoInput struct {
-	Firstname string
-	Lastname  string
 }
 
 type UpdateUserPasswordInput struct {
