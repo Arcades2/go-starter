@@ -8,12 +8,12 @@ import (
 )
 
 type GormUserRepository struct {
-	repository.GenericRepository[model.User, repository.CreateUserInput]
+	*GenericRepository[model.User, repository.CreateUserInput]
 }
 
 func NewGormUserRepository(db *gorm.DB) *GormUserRepository {
 	return &GormUserRepository{
-		GenericRepository: NewGenericRepository(
+		NewGenericRepository(
 			db,
 			func(cmd repository.CreateUserInput) *model.User {
 				return &model.User{
@@ -29,5 +29,18 @@ func NewGormUserRepository(db *gorm.DB) *GormUserRepository {
 }
 
 func (r *GormUserRepository) UpdateUserPassword(id uint, updates repository.UpdateUserPasswordInput) error {
-	return r.GenericRepository.UpdateByID(id, updates)
+	return r.UpdateByID(id, updates)
+}
+
+func (r *GormUserRepository) FindByEmail(email string) (*model.User, error) {
+	var user model.User
+	result := r.DB.Where("email = ?", email).First(&user)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &user, nil
+}
+
+func (r *GormUserRepository) UpdateRefreshToken(id uint, updates repository.UpdateUserRefreshTokenInput) error {
+	return r.UpdateByID(id, updates)
 }

@@ -1,27 +1,33 @@
 package authservice
 
+import (
+	"app/internal/domain/repository"
+)
+
 func (s *AuthService) Login(email, password string) (*LoginOutputDTO, error) {
 	user, err := s.UserRepo.FindByEmail(email)
 	if err != nil {
-		return nil, ErrInvalidCredentials()
+		return nil, NewAuthError(AuthErrors.ErrInvalidCredentials)
 	}
 
 	if !s.PasswordHasher.VerifyPassword(password, user.HashedPassword) {
-		return nil, ErrInvalidCredentials()
+		return nil, NewAuthError(AuthErrors.ErrInvalidCredentials)
 	}
 
 	accessToken, err := s.TokenGenerator.GenerateAccessToken(user.ID)
 	if err != nil {
-		return nil, ErrFailedToGenerateAccessToken()
+		return nil, NewAuthError(AuthErrors.ErrFailedToGenerateToken)
 	}
 
 	refreshToken, err := s.TokenGenerator.GenerateRefreshToken(user.ID)
 	if err != nil {
-		return nil, ErrFailedToGenerateRefreshToken()
+		return nil, NewAuthError(AuthErrors.ErrFailedToGenerateToken)
 	}
 
-	if err := s.UserRepo.UpdateRefreshToken(user.ID, refreshToken); err != nil {
-		return nil, ErrUpdatingUser()
+	if err := s.UserRepo.UpdateRefreshToken(user.ID, repository.UpdateUserRefreshTokenInput{
+		RefreshToken: refreshToken,
+	}); err != nil {
+		return nil, NewAuthError(AuthErrors.ErrUpdatingRefreshToken)
 	}
 
 	return &LoginOutputDTO{

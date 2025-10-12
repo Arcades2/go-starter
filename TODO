@@ -1,0 +1,8 @@
+middleware ou abstraction pour gestion d'erreur de domain
+
+exemple full crud avec Post
+
+améliorer l'image docker (faire un dockerfile avec air pour le dev et un pour la
+prod)
+
+EventBus (channel)

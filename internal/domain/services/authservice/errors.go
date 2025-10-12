@@ -1,25 +1,43 @@
 package authservice
 
-import "app/internal/domain/errors"
-
-const (
-	ErrInvalidCredentialsCode    errors.ErrorCode = "INVALID_CREDENTIALS"
-	ErrFailedToGenerateTokenCode errors.ErrorCode = "FAILED_GENERATE_TOKEN"
-	ErrUpdatingUserCode          errors.ErrorCode = "UPDATE_USER_FAILED"
+import (
+	"app/internal/domain/errors"
+	"reflect"
 )
 
-func ErrInvalidCredentials() *errors.AppError {
-	return errors.New(ErrInvalidCredentialsCode, "invalid credentials")
+type AuthError = errors.AppError
+
+var AuthErrors = struct {
+	ErrInvalidCredentials    AuthError
+	ErrFailedToGenerateToken AuthError
+	ErrUpdatingRefreshToken  AuthError
+	ErrRegisterInvalidInput  AuthError
+	ErrHashingPassword       AuthError
+}{
+	ErrInvalidCredentials:    AuthError{Code: "INVALID_CREDENTIALS", Message: "invalid credentials"},
+	ErrFailedToGenerateToken: AuthError{Code: "FAILED_GENERATE_TOKEN", Message: "failed to generate token"},
+	ErrUpdatingRefreshToken:  AuthError{Code: "UPDATE_USER_FAILED", Message: "failed to update user"},
+	ErrRegisterInvalidInput:  AuthError{Code: "REGISTER_INVALID_INPUT", Message: "invalid input"},
+	ErrHashingPassword:       AuthError{Code: "HASHING_PASSWORD_FAILED", Message: "failed to hash password"},
 }
 
-func ErrFailedToGenerateAccessToken() *errors.AppError {
-	return errors.New(ErrFailedToGenerateTokenCode, "failed to generate access token")
+func NewAuthError(err AuthError) *errors.AppError {
+	return &errors.AppError{
+		Code:    errors.ErrorCode(err.Code),
+		Message: err.Message,
+	}
 }
 
-func ErrFailedToGenerateRefreshToken() *errors.AppError {
-	return errors.New(ErrFailedToGenerateTokenCode, "failed to generate refresh token")
-}
+func AllAuthErrorCodes() []errors.ErrorCode {
+	val := reflect.ValueOf(AuthErrors)
+	codes := make([]errors.ErrorCode, 0, val.NumField())
 
-func ErrUpdatingUser() *errors.AppError {
-	return errors.New(ErrUpdatingUserCode, "failed to update user")
+	for i := 0; i < val.NumField(); i++ {
+		field := val.Field(i)
+		if authErr, ok := field.Interface().(AuthError); ok {
+			codes = append(codes, authErr.Code)
+		}
+	}
+
+	return codes
 }

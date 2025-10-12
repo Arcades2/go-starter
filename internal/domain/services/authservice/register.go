@@ -10,12 +10,12 @@ import (
 func (s *AuthService) Register(command RegisterCommand) (*model.User, error) {
 
 	if err := validator.Validate.Struct(command); err != nil {
-		return nil, err // TODO: domain error
+		return nil, NewAuthError(AuthErrors.ErrRegisterInvalidInput)
 	}
 
 	hashedPassword, err := s.PasswordHasher.HashPassword(command.Password)
 	if err != nil {
-		return nil, err // TODO: domain error
+		return nil, NewAuthError(AuthErrors.ErrHashingPassword)
 	}
 
 	userData := repository.CreateUserInput{

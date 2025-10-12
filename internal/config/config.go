@@ -13,7 +13,7 @@ var (
 	DBPassword           string
 	DBName               string
 	DBPort               int
-	JWTSecret            string
+	JWTSecret            []byte
 	AccessTokenDuration  time.Duration
 	RefreshTokenDuration time.Duration
 )
@@ -29,7 +29,7 @@ func Load() {
 	viper.SetDefault("DB_PORT", 5432)
 	viper.SetDefault("JWT_SECRET", "defaultsecret")
 	viper.SetDefault("ACCESS_TOKEN_DURATION", "15m")
-	viper.SetDefault("REFRESH_TOKEN_DURATION", "7d")
+	viper.SetDefault("REFRESH_TOKEN_DURATION", "24h")
 
 	if err := viper.ReadInConfig(); err != nil {
 		log.Println("No .env file found, using environment variables and defaults")
@@ -40,7 +40,7 @@ func Load() {
 	DBPassword = viper.GetString("DB_PASSWORD")
 	DBName = viper.GetString("DB_NAME")
 	DBPort = viper.GetInt("DB_PORT")
-	JWTSecret = viper.GetString("JWT_SECRET")
+	JWTSecret = []byte(viper.GetString("JWT_SECRET"))
 
 	var err error
 	AccessTokenDuration, err = time.ParseDuration(viper.GetString("ACCESS_TOKEN_DURATION"))
