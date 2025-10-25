@@ -1,9 +1,10 @@
 package userapi
 
 import (
-	"app/internal/domain/errors"
 	"net/http"
 	"strconv"
+
+	"app/internal/domain/errors"
 
 	"github.com/gin-gonic/gin"
 )

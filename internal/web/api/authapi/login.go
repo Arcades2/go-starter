@@ -1,8 +1,9 @@
 package authapi
 
 import (
-	"app/internal/domain/errors"
 	"net/http"
+
+	"app/internal/domain/errors"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,11 +1,12 @@
 package main
 
 import (
+	"fmt"
+	"log"
+
 	"app/internal/config"
 	infraGorm "app/internal/infrastructure/gorm"
 	"app/internal/web/api"
-	"fmt"
-	"log"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

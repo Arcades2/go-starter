@@ -1,8 +1,9 @@
 package gorm
 
 import (
-	"app/internal/domain/model"
 	"log"
+
+	"app/internal/domain/model"
 
 	"gorm.io/gorm"
 )

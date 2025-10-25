@@ -1,8 +1,9 @@
 package errors
 
 import (
-	"app/internal/domain/errors"
 	"log"
+
+	"app/internal/domain/errors"
 )
 
 func EnsureAllErrorsMapped(all []errors.ErrorCode, mapping map[errors.ErrorCode]int) {

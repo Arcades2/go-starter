@@ -8,7 +8,6 @@ import (
 )
 
 func (s *AuthService) Register(command RegisterCommand) (*model.User, error) {
-
 	if err := validator.Validate.Struct(command); err != nil {
 		return nil, NewAuthError(AuthErrors.ErrRegisterInvalidInput)
 	}

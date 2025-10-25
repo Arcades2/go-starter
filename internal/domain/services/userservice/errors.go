@@ -1,8 +1,9 @@
 package userservice
 
 import (
-	"app/internal/domain/errors"
 	"reflect"
+
+	"app/internal/domain/errors"
 )
 
 type UserError = errors.AppError

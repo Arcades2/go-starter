@@ -1,10 +1,11 @@
 package userapi
 
 import (
+	"net/http"
+
 	"app/internal/domain/errors"
 	"app/internal/domain/services/userservice"
 	weberrors "app/internal/web/errors"
-	"net/http"
 )
 
 var httpStatusMap = map[errors.ErrorCode]int{

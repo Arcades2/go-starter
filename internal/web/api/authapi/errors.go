@@ -1,10 +1,11 @@
 package authapi
 
 import (
+	"net/http"
+
 	"app/internal/domain/errors"
 	"app/internal/domain/services/authservice"
 	weberrors "app/internal/web/errors"
-	"net/http"
 )
 
 var httpStatusMap = map[errors.ErrorCode]int{
