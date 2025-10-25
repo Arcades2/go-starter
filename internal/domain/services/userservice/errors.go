@@ -6,7 +6,7 @@ import (
 	"app/internal/domain/errors"
 )
 
-type UserError = errors.AppError
+type UserError = errors.DomainError
 
 var UserErrors = struct {
 	ErrUserNotFound UserError
@@ -14,8 +14,8 @@ var UserErrors = struct {
 	ErrUserNotFound: UserError{Code: "USER_NOT_FOUND", Message: "user not found"},
 }
 
-func NewUserError(err UserError) *errors.AppError {
-	return &errors.AppError{
+func NewUserError(err UserError) *errors.DomainError {
+	return &errors.DomainError{
 		Code:    errors.ErrorCode(err.Code),
 		Message: err.Message,
 	}

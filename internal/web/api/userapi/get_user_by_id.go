@@ -4,8 +4,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"app/internal/domain/errors"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,12 +15,7 @@ func (h *userHandler) GetUserByID(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
 		return
 	}
-	user, err := h.UserService.GetUserByID(uint(id))
-	if appErr, ok := err.(*errors.AppError); ok {
-		status := httpStatusMap[appErr.Code]
-		ctx.JSON(status, gin.H{"code": appErr.Code, "message": appErr.Message})
-		return
-	}
+	user, _ := h.UserService.GetUserByID(uint(id))
 
 	response := UserResponse{
 		ID:        user.ID,

@@ -1,11 +1,10 @@
-package api
+package middlewares
 
 import (
-	"net/http"
-	"strings"
-
 	"app/internal/config"
 	"app/internal/infrastructure/auth"
+	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"

@@ -19,7 +19,7 @@ func (h *authHandler) Login(c *gin.Context) {
 	}
 
 	tokens, err := h.AuthService.Login(input.Email, input.Password)
-	if appErr, ok := err.(*errors.AppError); ok {
+	if appErr, ok := err.(*errors.DomainError); ok {
 		status := httpStatusMap[appErr.Code]
 		c.JSON(status, gin.H{"code": appErr.Code, "message": appErr.Message})
 		return

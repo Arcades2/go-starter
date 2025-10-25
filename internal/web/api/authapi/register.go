@@ -27,7 +27,7 @@ func (h *authHandler) Register(c *gin.Context) {
 	}
 
 	user, err := h.AuthService.Register(command)
-	if appErr, ok := err.(*errors.AppError); ok {
+	if appErr, ok := err.(*errors.DomainError); ok {
 		status := httpStatusMap[appErr.Code]
 		c.JSON(status, gin.H{"code": appErr.Code, "message": appErr.Message})
 		return

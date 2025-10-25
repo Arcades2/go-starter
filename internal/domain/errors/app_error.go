@@ -2,15 +2,15 @@ package errors
 
 type ErrorCode string
 
-type AppError struct {
+type DomainError struct {
 	Code    ErrorCode
 	Message string
 }
 
-func (e *AppError) Error() string {
+func (e *DomainError) Error() string {
 	return e.Message
 }
 
-func New(code ErrorCode, message string) *AppError {
-	return &AppError{Code: code, Message: message}
+func New(code ErrorCode, message string) *DomainError {
+	return &DomainError{Code: code, Message: message}
 }

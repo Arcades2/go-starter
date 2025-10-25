@@ -5,7 +5,7 @@ import "app/internal/domain/model"
 func (s *UserService) GetUserByID(ID uint) (*model.User, error) {
 	user, err := s.UserRepository.FindByID(ID)
 	if err != nil {
-		return nil, NewUserError(UserErrors.ErrUserNotFound)
+		return nil, s.HandleError(NewUserError(UserErrors.ErrUserNotFound))
 	}
 	return user, nil
 }

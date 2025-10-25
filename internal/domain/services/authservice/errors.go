@@ -6,7 +6,7 @@ import (
 	"app/internal/domain/errors"
 )
 
-type AuthError = errors.AppError
+type AuthError = errors.DomainError
 
 var AuthErrors = struct {
 	ErrInvalidCredentials    AuthError
@@ -22,8 +22,8 @@ var AuthErrors = struct {
 	ErrHashingPassword:       AuthError{Code: "HASHING_PASSWORD_FAILED", Message: "failed to hash password"},
 }
 
-func NewAuthError(err AuthError) *errors.AppError {
-	return &errors.AppError{
+func NewAuthError(err AuthError) *errors.DomainError {
+	return &errors.DomainError{
 		Code:    errors.ErrorCode(err.Code),
 		Message: err.Message,
 	}
