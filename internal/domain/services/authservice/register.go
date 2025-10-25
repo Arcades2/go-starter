@@ -14,7 +14,7 @@ func (s *AuthService) Register(command RegisterCommand) (*model.User, error) {
 
 	hashedPassword, err := s.PasswordHasher.HashPassword(command.Password)
 	if err != nil {
-		return nil, NewAuthError(AuthErrors.ErrHashingPassword)
+		return nil, s.HandleError(NewAuthError(AuthErrors.ErrHashingPassword))
 	}
 
 	userData := repository.CreateUserInput{

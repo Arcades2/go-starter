@@ -51,10 +51,17 @@ func (c *Container) GetUserService(settings *ServiceSettings) *userservice.UserS
 	)
 }
 
-func (c *Container) GetAuthService() *authservice.AuthService {
+func (c *Container) GetAuthService(settings *ServiceSettings) *authservice.AuthService {
+	var opts []baseservice.Option[*authservice.AuthService]
+
+	if settings != nil && settings.PanicOnError {
+		opts = append(opts, baseservice.WithPanicOnError[*authservice.AuthService])
+	}
+
 	return authservice.NewAuthService(
 		c.GetUserRepository(),
 		c.GetPasswordHasher(),
 		c.GetTokenGenerator(),
+		opts...,
 	)
 }

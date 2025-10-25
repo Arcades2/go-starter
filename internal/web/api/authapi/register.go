@@ -3,7 +3,6 @@ package authapi
 import (
 	"net/http"
 
-	"app/internal/domain/errors"
 	"app/internal/domain/services/authservice"
 
 	"github.com/gin-gonic/gin"
@@ -26,12 +25,7 @@ func (h *authHandler) Register(c *gin.Context) {
 		Password:  input.Password,
 	}
 
-	user, err := h.AuthService.Register(command)
-	if appErr, ok := err.(*errors.DomainError); ok {
-		status := httpStatusMap[appErr.Code]
-		c.JSON(status, gin.H{"code": appErr.Code, "message": appErr.Message})
-		return
-	}
+	user, _ := h.AuthService.Register(command)
 
 	c.JSON(http.StatusCreated, RegisterResponseDTO{
 		ID:        user.ID,
