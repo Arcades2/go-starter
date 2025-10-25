@@ -1,24 +1,15 @@
 package authapi
 
 import (
+	"app/internal/domain/services"
 	"app/internal/domain/services/authservice"
-	"app/internal/infrastructure/auth"
-	"app/internal/infrastructure/gorm/repository"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
 func RegisterAuthRoutes(router *gin.Engine, db *gorm.DB) {
-	userRepo := repository.NewGormUserRepository(db)
-	passwordHasher := auth.NewPasswordHasher()
-	tokenGenerator := auth.NewTokenGenerator()
-
-	authService := authservice.NewAuthService(
-		userRepo,
-		passwordHasher,
-		tokenGenerator,
-	)
+	authService := services.NewContainer(db).GetAuthService()
 
 	h := newAuthHandler(
 		authService,
