@@ -9,12 +9,7 @@ import (
 func (h *authHandler) Login(c *gin.Context) {
 	var input LoginInputDTO
 
-	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "invalid request body",
-		})
-		return
-	}
+	c.BindJSON(&input)
 
 	authService := GetAuthServiceFromContext(c)
 
