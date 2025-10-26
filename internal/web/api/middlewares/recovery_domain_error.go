@@ -19,6 +19,7 @@ func RecoveryDomainError(statusMap map[errors.ErrorCode]int) gin.HandlerFunc {
 						}
 					}
 
+					c.Error(domainErr)
 					c.JSON(status, gin.H{
 						"code":    domainErr.Code,
 						"message": domainErr.Message,

@@ -18,6 +18,8 @@ func (h *authHandler) Register(c *gin.Context) {
 		return
 	}
 
+	authService := GetAuthServiceFromContext(c)
+
 	command := authservice.RegisterCommand{
 		Firstname: input.Firstname,
 		Lastname:  input.Lastname,
@@ -25,7 +27,7 @@ func (h *authHandler) Register(c *gin.Context) {
 		Password:  input.Password,
 	}
 
-	user, _ := h.AuthService.Register(command)
+	user, _ := authService.Register(command)
 
 	c.JSON(http.StatusCreated, RegisterResponseDTO{
 		ID:        user.ID,

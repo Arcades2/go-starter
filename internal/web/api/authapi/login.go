@@ -16,7 +16,9 @@ func (h *authHandler) Login(c *gin.Context) {
 		return
 	}
 
-	tokens, _ := h.AuthService.Login(input.Email, input.Password)
+	authService := GetAuthServiceFromContext(c)
+
+	tokens, _ := authService.Login(input.Email, input.Password)
 
 	c.JSON(http.StatusOK, tokens)
 }

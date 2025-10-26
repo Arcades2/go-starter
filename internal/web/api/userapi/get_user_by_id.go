@@ -8,6 +8,7 @@ import (
 )
 
 func (h *userHandler) GetUserByID(ctx *gin.Context) {
+	userService := GetUserServiceFromContext(ctx)
 	id_param := ctx.Param("id")
 
 	id, err := strconv.Atoi(id_param)
@@ -15,7 +16,7 @@ func (h *userHandler) GetUserByID(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
 		return
 	}
-	user, _ := h.UserService.GetUserByID(uint(id))
+	user, _ := userService.GetUserByID(uint(id))
 
 	response := UserResponse{
 		ID:        user.ID,

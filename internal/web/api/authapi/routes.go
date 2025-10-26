@@ -10,15 +10,7 @@ import (
 )
 
 func RegisterAuthRoutes(router *gin.Engine, db *gorm.DB) {
-	authService := services.NewContainer(db).GetAuthService(
-		&services.ServiceSettings{
-			PanicOnError: true,
-		},
-	)
-
-	h := newAuthHandler(
-		authService,
-	)
+	h := newAuthHandler()
 
 	router.Use(middlewares.RecoveryDomainError(httpStatusMap))
 
@@ -27,11 +19,16 @@ func RegisterAuthRoutes(router *gin.Engine, db *gorm.DB) {
 }
 
 type authHandler struct {
-	AuthService *authservice.AuthService
 }
 
-func newAuthHandler(authService *authservice.AuthService) *authHandler {
-	return &authHandler{
-		AuthService: authService,
-	}
+func newAuthHandler() *authHandler {
+	return &authHandler{}
+}
+
+func GetAuthServiceFromContext(ctx *gin.Context) *authservice.AuthService {
+	tx := ctx.MustGet("tx").(*gorm.DB)
+	container := services.NewContainer(tx)
+	return container.GetAuthService(&services.ServiceSettings{
+		PanicOnError: true,
+	})
 }

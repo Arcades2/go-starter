@@ -12,6 +12,8 @@ import (
 func SetupRouter(db *gorm.DB) *gin.Engine {
 	router := gin.Default()
 
+	router.Use(middlewares.TransactionMiddleware(db))
+
 	authapi.RegisterAuthRoutes(router, db)
 
 	api := router.Group("/api")
