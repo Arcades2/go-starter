@@ -11,7 +11,11 @@ import (
 func (h *authHandler) Register(c *gin.Context) {
 	var request RegisterRequest
 
-	c.BindJSON(&request)
+	err := c.BindJSON(&request)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	authService := GetAuthServiceFromContext(c)
 

@@ -1,9 +1,10 @@
 package postapi
 
 import (
-	"app/internal/domain/services/postservice"
 	"net/http"
 	"strconv"
+
+	"app/internal/domain/services/postservice"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,7 +12,11 @@ import (
 func (h *postHandler) UpdatePostTitle(ctx *gin.Context) {
 	var request UpdatePostTitleRequest
 
-	ctx.BindJSON(&request)
+	err := ctx.BindJSON(&request)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
@@ -22,7 +27,7 @@ func (h *postHandler) UpdatePostTitle(ctx *gin.Context) {
 
 	postService := GetPostServiceFromContext(ctx)
 
-	postService.UpdateTitle(postservice.UpdateTitleCommand{
+	_ = postService.UpdateTitle(postservice.UpdateTitleCommand{
 		ID:    uint(id),
 		Title: request.Title,
 	})

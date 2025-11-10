@@ -18,8 +18,7 @@ func RegisterAuthRoutes(router *gin.Engine, db *gorm.DB) {
 	router.POST("/auth/register", h.Register)
 }
 
-type authHandler struct {
-}
+type authHandler struct{}
 
 func newAuthHandler() *authHandler {
 	return &authHandler{}

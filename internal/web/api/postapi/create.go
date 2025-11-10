@@ -1,15 +1,20 @@
 package postapi
 
 import (
-	"app/internal/domain/services/postservice"
 	"net/http"
+
+	"app/internal/domain/services/postservice"
 
 	"github.com/gin-gonic/gin"
 )
 
 func (h *postHandler) CreatePost(ctx *gin.Context) {
 	var req CreatePostRequest
-	ctx.BindJSON(&req)
+	err := ctx.BindJSON(&req)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	userID := ctx.MustGet("userID").(uint)
 

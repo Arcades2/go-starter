@@ -1,8 +1,9 @@
 package middlewares
 
 import (
-	"app/internal/domain/errors"
 	"net/http"
+
+	"app/internal/domain/errors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,7 +20,10 @@ func RecoveryDomainError(statusMap map[errors.ErrorCode]int) gin.HandlerFunc {
 						}
 					}
 
-					c.Error(domainErr)
+					err := c.Error(domainErr)
+					if err != nil {
+						return
+					}
 					c.JSON(status, gin.H{
 						"code":    domainErr.Code,
 						"message": domainErr.Message,

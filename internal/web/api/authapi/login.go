@@ -1,8 +1,9 @@
 package authapi
 
 import (
-	"app/internal/domain/services/authservice"
 	"net/http"
+
+	"app/internal/domain/services/authservice"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,7 +11,11 @@ import (
 func (h *authHandler) Login(c *gin.Context) {
 	var request LoginRequest
 
-	c.BindJSON(&request)
+	err := c.BindJSON(&request)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	authService := GetAuthServiceFromContext(c)
 

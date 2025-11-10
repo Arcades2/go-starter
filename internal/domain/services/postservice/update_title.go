@@ -6,7 +6,6 @@ import (
 )
 
 func (h *postService) UpdateTitle(cmd UpdateTitleCommand) error {
-
 	err := validator.Validate.Struct(cmd)
 	if err != nil {
 		return h.HandleError(NewPostError(PostErrors.ErrPostUpdateInvalid))
