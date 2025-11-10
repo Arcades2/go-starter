@@ -22,13 +22,13 @@ func (s *postService) Create(cmd CreatePostCommand) (*model.Post, error) {
 	_, err := s.UserReaderService.GetByID(cmd.AuthorID)
 	if err != nil {
 		return nil, s.HandleError(
-			err,
+			NewPostError(PostErrors.ErrPostCreateAuthorNotFound),
 		)
 	}
 
 	post, err := s.PostRepository.Create(input)
 	if err != nil {
-		return nil, err
+		return nil, s.HandleError(err)
 	}
 	return post, nil
 }
