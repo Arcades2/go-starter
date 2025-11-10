@@ -4,13 +4,13 @@ import (
 	"app/internal/domain/repository"
 )
 
-func (s *AuthService) Login(email, password string) (*LoginOutputDTO, error) {
-	user, err := s.UserRepo.FindByEmail(email)
+func (s *authService) Login(cmd LoginCommand) (*LoginOutput, error) {
+	user, err := s.UserRepo.FindByEmail(cmd.Email)
 	if err != nil {
 		return nil, s.HandleError(NewAuthError(AuthErrors.ErrInvalidCredentials))
 	}
 
-	if !s.PasswordHasher.VerifyPassword(password, user.HashedPassword) {
+	if !s.PasswordHasher.VerifyPassword(cmd.Password, user.HashedPassword) {
 		return nil, s.HandleError(NewAuthError(AuthErrors.ErrInvalidCredentials))
 	}
 
@@ -30,14 +30,19 @@ func (s *AuthService) Login(email, password string) (*LoginOutputDTO, error) {
 		return nil, s.HandleError(NewAuthError(AuthErrors.ErrUpdatingRefreshToken))
 	}
 
-	return &LoginOutputDTO{
+	return &LoginOutput{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 		Type:         "Bearer",
 	}, nil
 }
 
-type LoginOutputDTO struct {
+type LoginCommand struct {
+	Email    string
+	Password string
+}
+
+type LoginOutput struct {
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
 	Type         string `json:"type"`

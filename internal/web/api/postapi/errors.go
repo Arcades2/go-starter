@@ -12,6 +12,7 @@ var httpStatusMap = map[errors.ErrorCode]int{
 	postservice.PostErrors.ErrPostNotFound.Code:             http.StatusNotFound,
 	postservice.PostErrors.ErrPostCreateInvalid.Code:        http.StatusBadRequest,
 	postservice.PostErrors.ErrPostCreateAuthorNotFound.Code: http.StatusBadRequest,
+	postservice.PostErrors.ErrPostUpdateInvalid.Code:        http.StatusBadRequest,
 }
 
 func init() {

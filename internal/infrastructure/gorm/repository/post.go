@@ -25,3 +25,7 @@ func NewGormPostRepository(db *gorm.DB) *GormPostRepository {
 		),
 	}
 }
+
+func (r *GormPostRepository) UpdateTitle(id uint, updates repository.UpdatePostTitleInput) error {
+	return r.UpdateByID(id, updates)
+}

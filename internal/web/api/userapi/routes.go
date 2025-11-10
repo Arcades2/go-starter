@@ -23,7 +23,7 @@ func newUserHandler() *userHandler {
 	return &userHandler{}
 }
 
-func GetUserServiceFromContext(ctx *gin.Context) *userservice.UserService {
+func GetUserServiceFromContext(ctx *gin.Context) userservice.UserService {
 	tx := ctx.MustGet("tx").(*gorm.DB)
 	container := services.NewContainer(tx)
 	return container.GetUserService(&services.ServiceSettings{

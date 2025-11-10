@@ -9,7 +9,7 @@ import (
 )
 
 func (h *authHandler) Register(c *gin.Context) {
-	var request RegisterRequestDTO
+	var request RegisterRequest
 
 	c.BindJSON(&request)
 
@@ -32,7 +32,7 @@ func (h *authHandler) Register(c *gin.Context) {
 	})
 }
 
-type RegisterRequestDTO struct {
+type RegisterRequest struct {
 	Firstname string `json:"firstname" binding:"required,min=1,max=255"`
 	Lastname  string `json:"lastname" binding:"required,min=1,max=255"`
 	Email     string `json:"email" binding:"required,email"`

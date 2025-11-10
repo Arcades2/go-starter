@@ -6,20 +6,20 @@ import (
 	"app/internal/pkg/validator"
 )
 
-func (s *PostService) CreatePost(command CreatePostCommand) (*model.Post, error) {
+func (s *postService) Create(cmd CreatePostCommand) (*model.Post, error) {
 	input := repository.CreatePostInput{
-		Title:    command.Title,
-		Content:  command.Content,
-		AuthorID: command.AuthorID,
+		Title:    cmd.Title,
+		Content:  cmd.Content,
+		AuthorID: cmd.AuthorID,
 	}
 
-	if err := validator.Validate.Struct(command); err != nil {
+	if err := validator.Validate.Struct(cmd); err != nil {
 		return nil, s.HandleError(
 			NewPostError(PostErrors.ErrPostCreateInvalid),
 		)
 	}
 
-	_, err := s.UserReaderService.GetUserByID(command.AuthorID)
+	_, err := s.UserReaderService.GetByID(cmd.AuthorID)
 	if err != nil {
 		return nil, s.HandleError(
 			err,
@@ -35,6 +35,6 @@ func (s *PostService) CreatePost(command CreatePostCommand) (*model.Post, error)
 
 type CreatePostCommand struct {
 	Title    string `validate:"required,min=3,max=100"`
-	Content  string `validate:"required"`
+	Content  string `validate:"required,min=10"`
 	AuthorID uint   `validate:"required"`
 }

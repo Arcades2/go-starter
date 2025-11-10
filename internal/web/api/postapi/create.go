@@ -20,7 +20,7 @@ func (h *postHandler) CreatePost(ctx *gin.Context) {
 		Content:  req.Content,
 		AuthorID: userID,
 	}
-	post, _ := postService.CreatePost(command)
+	post, _ := postService.Create(command)
 
 	response := CreatePostResponse{
 		ID:       post.ID,

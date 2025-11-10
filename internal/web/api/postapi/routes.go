@@ -15,6 +15,8 @@ func RegisterPostRoutes(router *gin.RouterGroup, db *gorm.DB) {
 	router.Use(middlewares.RecoveryDomainError(httpStatusMap))
 
 	router.POST("/posts", h.CreatePost)
+	router.GET("/posts/:id", h.GetPostByID)
+	router.PATCH("/posts/:id/title", h.UpdatePostTitle)
 }
 
 type postHandler struct{}
@@ -23,7 +25,7 @@ func newPostHandler() *postHandler {
 	return &postHandler{}
 }
 
-func GetPostServiceFromContext(ctx *gin.Context) *postservice.PostService {
+func GetPostServiceFromContext(ctx *gin.Context) postservice.PostService {
 	tx := ctx.MustGet("tx").(*gorm.DB)
 	container := services.NewContainer(tx)
 	return container.GetPostService(&services.ServiceSettings{

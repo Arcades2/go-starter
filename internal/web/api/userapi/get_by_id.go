@@ -16,7 +16,7 @@ func (h *userHandler) GetUserByID(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
 		return
 	}
-	user, _ := userService.GetUserByID(uint(id))
+	user, _ := userService.GetByID(uint(id))
 
 	response := UserResponseDTO{
 		ID:        user.ID,
@@ -32,7 +32,7 @@ func (h *userHandler) GetMe(ctx *gin.Context) {
 	userService := GetUserServiceFromContext(ctx)
 	userID := ctx.MustGet("userID").(uint)
 
-	user, _ := userService.GetUserByID(userID)
+	user, _ := userService.GetByID(userID)
 
 	response := UserResponseDTO{
 		ID:        user.ID,

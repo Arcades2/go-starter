@@ -6,7 +6,7 @@ type UserRepository interface {
 	GenericRepository[model.User, CreateUserInput]
 	FindByEmail(email string) (*model.User, error)
 	UpdateRefreshToken(id uint, updates UpdateUserRefreshTokenInput) error
-	UpdateUserPassword(id uint, updates UpdateUserPasswordInput) error
+	UpdatePassword(id uint, updates UpdateUserPasswordInput) error
 }
 
 type CreateUserInput struct {

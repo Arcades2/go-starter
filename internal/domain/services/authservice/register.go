@@ -7,7 +7,7 @@ import (
 	"app/internal/pkg/validator"
 )
 
-func (s *AuthService) Register(command RegisterCommand) (*model.User, error) {
+func (s *authService) Register(command RegisterCommand) (*model.User, error) {
 	if err := validator.Validate.Struct(command); err != nil {
 		return nil, s.HandleError(NewAuthError(AuthErrors.ErrRegisterInvalidInput))
 	}

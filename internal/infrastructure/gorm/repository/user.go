@@ -28,7 +28,7 @@ func NewGormUserRepository(db *gorm.DB) *GormUserRepository {
 	}
 }
 
-func (r *GormUserRepository) UpdateUserPassword(id uint, updates repository.UpdateUserPasswordInput) error {
+func (r *GormUserRepository) UpdatePassword(id uint, updates repository.UpdateUserPasswordInput) error {
 	return r.UpdateByID(id, updates)
 }
 
