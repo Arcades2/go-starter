@@ -7,18 +7,18 @@ import (
 )
 
 func (h *authHandler) Login(c *gin.Context) {
-	var input LoginInputDTO
+	var request LoginRequestDTO
 
-	c.BindJSON(&input)
+	c.BindJSON(&request)
 
 	authService := GetAuthServiceFromContext(c)
 
-	tokens, _ := authService.Login(input.Email, input.Password)
+	tokens, _ := authService.Login(request.Email, request.Password)
 
 	c.JSON(http.StatusOK, tokens)
 }
 
-type LoginInputDTO struct {
+type LoginRequestDTO struct {
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required"`
 }

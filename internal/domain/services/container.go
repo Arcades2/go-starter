@@ -3,6 +3,8 @@ package services
 import (
 	"app/internal/domain/services/authservice"
 	"app/internal/domain/services/baseservice"
+	"app/internal/domain/services/postservice"
+	"app/internal/domain/services/userreaderservice"
 	"app/internal/domain/services/userservice"
 	"app/internal/infrastructure/auth"
 	"app/internal/infrastructure/gorm/repository"
@@ -24,10 +26,16 @@ func NewContainer(db *gorm.DB) *Container {
 	}
 }
 
+// REPOSITORIES
 func (c *Container) GetUserRepository() *repository.GormUserRepository {
 	return repository.NewGormUserRepository(c.DB)
 }
 
+func (c *Container) GetPostRepository() *repository.GormPostRepository {
+	return repository.NewGormPostRepository(c.DB)
+}
+
+// INFRASTRUCTURE
 func (c *Container) GetPasswordHasher() *auth.PasswordHasher {
 	return auth.NewPasswordHasher()
 }
@@ -62,6 +70,33 @@ func (c *Container) GetAuthService(settings *ServiceSettings) *authservice.AuthS
 		c.GetUserRepository(),
 		c.GetPasswordHasher(),
 		c.GetTokenGenerator(),
+		opts...,
+	)
+}
+
+func (c *Container) GetUserReaderService(settings *ServiceSettings) *userreaderservice.UserReaderService {
+	var opts []baseservice.Option[*userreaderservice.UserReaderService]
+
+	if settings != nil && settings.PanicOnError {
+		opts = append(opts, baseservice.WithPanicOnError[*userreaderservice.UserReaderService])
+	}
+
+	return userreaderservice.NewUserReaderService(
+		c.GetUserRepository(),
+		opts...,
+	)
+}
+
+func (c *Container) GetPostService(settings *ServiceSettings) *postservice.PostService {
+	var opts []baseservice.Option[*postservice.PostService]
+
+	if settings != nil && settings.PanicOnError {
+		opts = append(opts, baseservice.WithPanicOnError[*postservice.PostService])
+	}
+
+	return postservice.NewPostService(
+		c.GetPostRepository(),
+		c.GetUserReaderService(settings),
 		opts...,
 	)
 }

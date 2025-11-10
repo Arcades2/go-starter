@@ -3,6 +3,7 @@ package api
 import (
 	"app/internal/web/api/authapi"
 	"app/internal/web/api/middlewares"
+	"app/internal/web/api/postapi"
 	"app/internal/web/api/userapi"
 
 	"github.com/gin-gonic/gin"
@@ -20,6 +21,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	api.Use(middlewares.AuthMiddleware())
 	{
 		userapi.RegisterUserRoutes(api, db)
+		postapi.RegisterPostRoutes(api, db)
 	}
 
 	return router

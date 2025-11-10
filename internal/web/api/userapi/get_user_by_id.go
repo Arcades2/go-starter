@@ -18,7 +18,7 @@ func (h *userHandler) GetUserByID(ctx *gin.Context) {
 	}
 	user, _ := userService.GetUserByID(uint(id))
 
-	response := UserResponse{
+	response := UserResponseDTO{
 		ID:        user.ID,
 		Firstname: user.Firstname,
 		Lastname:  user.Lastname,
@@ -28,7 +28,23 @@ func (h *userHandler) GetUserByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
-type UserResponse struct {
+func (h *userHandler) GetMe(ctx *gin.Context) {
+	userService := GetUserServiceFromContext(ctx)
+	userID := ctx.MustGet("userID").(uint)
+
+	user, _ := userService.GetUserByID(userID)
+
+	response := UserResponseDTO{
+		ID:        user.ID,
+		Firstname: user.Firstname,
+		Lastname:  user.Lastname,
+		Email:     user.Email,
+	}
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+type UserResponseDTO struct {
 	ID        uint   `json:"id"`
 	Firstname string `json:"firstname"`
 	Lastname  string `json:"lastname"`

@@ -13,6 +13,7 @@ func Migrate(db *gorm.DB) {
 
 	err := db.AutoMigrate(
 		&model.User{},
+		&model.Post{},
 	)
 	if err != nil {
 		log.Fatal("Failed to migrate database:", err)

@@ -9,17 +9,17 @@ import (
 )
 
 func (h *authHandler) Register(c *gin.Context) {
-	var input RegisterInputDTO
+	var request RegisterRequestDTO
 
-	c.BindJSON(&input)
+	c.BindJSON(&request)
 
 	authService := GetAuthServiceFromContext(c)
 
 	command := authservice.RegisterCommand{
-		Firstname: input.Firstname,
-		Lastname:  input.Lastname,
-		Email:     input.Email,
-		Password:  input.Password,
+		Firstname: request.Firstname,
+		Lastname:  request.Lastname,
+		Email:     request.Email,
+		Password:  request.Password,
 	}
 
 	user, _ := authService.Register(command)
@@ -32,7 +32,7 @@ func (h *authHandler) Register(c *gin.Context) {
 	})
 }
 
-type RegisterInputDTO struct {
+type RegisterRequestDTO struct {
 	Firstname string `json:"firstname" binding:"required,min=1,max=255"`
 	Lastname  string `json:"lastname" binding:"required,min=1,max=255"`
 	Email     string `json:"email" binding:"required,email"`
