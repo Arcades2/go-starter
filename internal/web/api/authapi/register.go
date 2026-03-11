@@ -3,7 +3,7 @@ package authapi
 import (
 	"net/http"
 
-	"app/internal/domain/services/authservice"
+	"app/internal/application/auth"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,7 +19,7 @@ func (h *authHandler) Register(c *gin.Context) {
 
 	authService := GetAuthServiceFromContext(c)
 
-	command := authservice.RegisterCommand{
+	command := auth.RegisterCommand{
 		Firstname: request.Firstname,
 		Lastname:  request.Lastname,
 		Email:     request.Email,
@@ -37,10 +37,10 @@ func (h *authHandler) Register(c *gin.Context) {
 }
 
 type RegisterRequest struct {
-	Firstname string `json:"firstname" binding:"required,min=1,max=255"`
-	Lastname  string `json:"lastname" binding:"required,min=1,max=255"`
-	Email     string `json:"email" binding:"required,email"`
-	Password  string `json:"password" binding:"required,min=8,max=100"`
+	Firstname string `json:"firstname" binding:"required"`
+	Lastname  string `json:"lastname" binding:"required"`
+	Email     string `json:"email" binding:"required"`
+	Password  string `json:"password" binding:"required"`
 }
 
 type RegisterResponseDTO struct {

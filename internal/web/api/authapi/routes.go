@@ -1,8 +1,8 @@
 package authapi
 
 import (
+	"app/internal/application/auth"
 	"app/internal/domain/services"
-	"app/internal/domain/services/authservice"
 	"app/internal/web/api/middlewares"
 
 	"github.com/gin-gonic/gin"
@@ -24,7 +24,7 @@ func newAuthHandler() *authHandler {
 	return &authHandler{}
 }
 
-func GetAuthServiceFromContext(ctx *gin.Context) authservice.AuthService {
+func GetAuthServiceFromContext(ctx *gin.Context) auth.AuthService {
 	tx := ctx.MustGet("tx").(*gorm.DB)
 	container := services.NewContainer(tx)
 	return container.GetAuthService(&services.ServiceSettings{

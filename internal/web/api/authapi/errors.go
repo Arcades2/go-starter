@@ -3,20 +3,19 @@ package authapi
 import (
 	"net/http"
 
+	"app/internal/application/auth"
 	"app/internal/domain/errors"
-	"app/internal/domain/services/authservice"
 	weberrors "app/internal/web/errors"
 )
 
 var httpStatusMap = map[errors.ErrorCode]int{
-	authservice.AuthErrors.ErrInvalidCredentials.Code:    http.StatusUnauthorized,
-	authservice.AuthErrors.ErrFailedToGenerateToken.Code: http.StatusInternalServerError,
-	authservice.AuthErrors.ErrUpdatingRefreshToken.Code:  http.StatusInternalServerError,
-	authservice.AuthErrors.ErrRegisterInvalidInput.Code:  http.StatusBadRequest,
-	authservice.AuthErrors.ErrHashingPassword.Code:       http.StatusInternalServerError,
+	auth.ErrInvalidCredentials.Code:    http.StatusUnauthorized,
+	auth.ErrFailedToGenerateToken.Code: http.StatusInternalServerError,
+	auth.ErrUpdatingRefreshToken.Code:  http.StatusInternalServerError,
+	auth.ErrRegisterInvalidInput.Code:  http.StatusBadRequest,
+	auth.ErrHashingPassword.Code:       http.StatusInternalServerError,
 }
 
 func init() {
-	authserviceErrors := authservice.AllAuthErrorCodes()
-	weberrors.EnsureAllErrorsMapped(authserviceErrors, httpStatusMap)
+	weberrors.EnsureAllErrorsMapped(auth.AllAuthErrorCodes(), httpStatusMap)
 }

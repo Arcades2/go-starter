@@ -1,31 +1,17 @@
 package repository
 
 import (
-	"app/internal/domain/model"
-	"app/internal/domain/repository"
+	"app/internal/domain/post"
 
 	"gorm.io/gorm"
 )
 
 type GormPostRepository struct {
-	*GenericRepository[model.Post, repository.CreatePostInput]
+	*Repository[*post.Post]
 }
 
 func NewGormPostRepository(db *gorm.DB) *GormPostRepository {
 	return &GormPostRepository{
-		NewGenericRepository(
-			db,
-			func(input repository.CreatePostInput) *model.Post {
-				return &model.Post{
-					Title:    input.Title,
-					Content:  input.Content,
-					AuthorID: input.AuthorID,
-				}
-			},
-		),
+		NewRepository[*post.Post](db),
 	}
-}
-
-func (r *GormPostRepository) UpdateTitle(id uint, updates repository.UpdatePostTitleInput) error {
-	return r.UpdateByID(id, updates)
 }

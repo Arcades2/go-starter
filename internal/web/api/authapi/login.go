@@ -3,7 +3,7 @@ package authapi
 import (
 	"net/http"
 
-	"app/internal/domain/services/authservice"
+	"app/internal/application/auth"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,7 +19,7 @@ func (h *authHandler) Login(c *gin.Context) {
 
 	authService := GetAuthServiceFromContext(c)
 
-	tokens, _ := authService.Login(authservice.LoginCommand{
+	tokens, _ := authService.Login(auth.LoginCommand{
 		Email:    request.Email,
 		Password: request.Password,
 	})
@@ -28,6 +28,6 @@ func (h *authHandler) Login(c *gin.Context) {
 }
 
 type LoginRequest struct {
-	Email    string `json:"email" binding:"required,email"`
+	Email    string `json:"email" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }

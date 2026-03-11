@@ -1,6 +1,7 @@
-package baseservice
+package common
 
 type Panicable interface {
+	HandleError(error) error
 	SetPanicOnError(bool)
 }
 
@@ -24,8 +25,10 @@ func (b *BaseService) SetPanicOnError(enable bool) {
 
 type Option[T Panicable] func(T)
 
-func WithPanicOnError[T Panicable](svc T) {
-	svc.SetPanicOnError(true)
+func WithPanicOnError[T Panicable](svc T) Option[T] {
+	return func(s T) {
+		svc.SetPanicOnError(true)
+	}
 }
 
 func NewBaseService() BaseService {

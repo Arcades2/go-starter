@@ -1,4 +1,5 @@
-package model
+// Package common contains common entities and value objects used across the application.
+package common
 
 import "time"
 
