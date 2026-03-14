@@ -33,6 +33,7 @@ func (h *postHandler) UpdatePostTitle(ctx *gin.Context) {
 	})
 	if err != nil {
 		errorHandler(ctx, err)
+		return
 	}
 
 	ctx.Status(http.StatusNoContent)

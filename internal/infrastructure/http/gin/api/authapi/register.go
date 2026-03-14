@@ -27,6 +27,7 @@ func (h *authHandler) Register(c *gin.Context) {
 	})
 	if err != nil {
 		errorHandler(c, err)
+		return
 	}
 
 	c.JSON(http.StatusCreated, RegisterResponse{

@@ -19,6 +19,7 @@ func (h *postHandler) GetPostByID(ctx *gin.Context) {
 	post, err := postReader.GetByID(uint(id))
 	if err != nil {
 		errorHandler(ctx, err)
+		return
 	}
 
 	response := PostResponseDTO{

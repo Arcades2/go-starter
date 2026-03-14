@@ -19,6 +19,7 @@ func (h *userHandler) GetUserByID(ctx *gin.Context) {
 	user, err := userService.GetByID(uint(id))
 	if err != nil {
 		errorHandler(ctx, err)
+		return
 	}
 
 	response := UserResponse{

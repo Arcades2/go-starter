@@ -25,6 +25,7 @@ func (h *authHandler) Login(c *gin.Context) {
 	})
 	if err != nil {
 		errorHandler(c, err)
+		return
 	}
 
 	c.JSON(http.StatusOK, tokens)

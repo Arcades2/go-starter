@@ -9,7 +9,7 @@ import (
 )
 
 type User struct {
-	ID             uint   `json:"id" gorm:"primaryKey"`
+	ID             uint   `json:"id" gorm:"primaryKey,autoIncrement"`
 	Email          string `json:"email" gorm:"uniqueIndex;not null"`
 	Firstname      string `json:"firstname" gorm:"size:255;not null"`
 	Lastname       string `json:"lastname" gorm:"size:255;not null"`
@@ -44,7 +44,7 @@ func (e *User) Validate() error {
 		errs = append(errs, NewUserError(UserErrors.ErrInvalidUser, "invalid refresh token"))
 	}
 
-	if len(errs) == 0 {
+	if len(errs) > 0 {
 		return &errors.ValidationError{
 			Errors: errs,
 		}

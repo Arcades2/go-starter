@@ -27,6 +27,7 @@ func (h *postHandler) CreatePost(ctx *gin.Context) {
 	})
 	if err != nil {
 		errorHandler(ctx, err)
+		return
 	}
 
 	response := CreatePostResponse{

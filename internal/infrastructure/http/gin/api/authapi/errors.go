@@ -13,7 +13,9 @@ var httpStatusMap = map[errors.ErrorCode]int{
 	auth.ErrFailedToGenerateToken.Code: http.StatusInternalServerError,
 	auth.ErrUpdatingUser.Code:          http.StatusInternalServerError,
 	auth.ErrRegisterInvalidInput.Code:  http.StatusBadRequest,
+	auth.ErrLoginInvalidInput.Code:     http.StatusBadRequest,
 	auth.ErrHashingPassword.Code:       http.StatusInternalServerError,
+	auth.ErrUserNotFound.Code:          http.StatusNotFound,
 }
 
 func init() {

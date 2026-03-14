@@ -6,7 +6,7 @@ import (
 )
 
 type Post struct {
-	ID       uint   `json:"id" gorm:"primaryKey"`
+	ID       uint   `json:"id" gorm:"primaryKey,autoIncrement"`
 	Title    string `json:"title" gorm:"size:255;not null"`
 	Content  string `json:"content" gorm:"type:text;not null"`
 	AuthorID uint
