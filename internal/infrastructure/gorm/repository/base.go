@@ -1,4 +1,3 @@
-// Package repository provides a generic repository implementation using GORM for basic CRUD operations on any entity type.
 package repository
 
 import (

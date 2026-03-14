@@ -16,6 +16,6 @@ type Post struct {
 
 // TODO: constructor function for Post
 
-func (e *Post) Validate() []error {
+func (e *Post) Validate() error {
 	return nil
 }

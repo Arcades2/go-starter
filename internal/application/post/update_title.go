@@ -5,7 +5,7 @@ import "app/internal/domain/post"
 func (s *postService) UpdateTitle(cmd UpdateTitleCommand) (*post.Post, error) {
 	post, err := s.reader.GetByID(cmd.ID)
 	if err != nil {
-		return nil, s.HandleError(ErrPostNotFound)
+		return nil, ErrPostNotFound
 	}
 
 	post.Title = cmd.Title

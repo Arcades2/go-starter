@@ -9,6 +9,7 @@ var registry = errors.NewRegistry()
 var (
 	ErrPostNotFound      = registry.Register("POST_NOT_FOUND", "post not found")
 	ErrPostCreateInvalid = registry.Register("POST_CREATE_INVALID", "post create invalid")
+	ErrPostCreateFailed  = registry.Register("POST_CREATE_FAILED", "post create failed")
 	ErrPostUpdateInvalid = registry.Register("POST_UPDATE_INVALID", "post update invalid")
 )
 

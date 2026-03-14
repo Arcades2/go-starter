@@ -2,7 +2,7 @@
 package common
 
 type Validatable interface {
-	Validate() []error
+	Validate() error
 }
 
 type Repository[T Validatable] interface {

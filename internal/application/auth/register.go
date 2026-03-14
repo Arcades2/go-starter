@@ -7,7 +7,7 @@ import (
 func (s *authService) Register(command RegisterCommand) (*user.User, error) {
 	hashedPassword, err := s.passwordHasher.HashPassword(command.Password)
 	if err != nil {
-		return nil, s.HandleError(ErrHashingPassword)
+		return nil, ErrHashingPassword
 	}
 
 	newUser := user.User{
@@ -19,7 +19,7 @@ func (s *authService) Register(command RegisterCommand) (*user.User, error) {
 
 	err = s.userRepo.Create(&newUser)
 
-	return &newUser, s.HandleError(err)
+	return &newUser, err
 }
 
 type RegisterCommand struct {

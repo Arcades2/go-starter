@@ -8,7 +8,7 @@ import (
 )
 
 func (h *userHandler) GetUserByID(ctx *gin.Context) {
-	userService := GetUserServiceFromContext(ctx)
+	userService := getUserReaderServiceFromContext(ctx)
 	id_param := ctx.Param("id")
 
 	id, err := strconv.Atoi(id_param)
@@ -16,9 +16,12 @@ func (h *userHandler) GetUserByID(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
 		return
 	}
-	user, _ := userService.GetByID(uint(id))
+	user, err := userService.GetByID(uint(id))
+	if err != nil {
+		errorHandler(ctx, err)
+	}
 
-	response := UserResponseDTO{
+	response := UserResponse{
 		ID:        user.ID,
 		Firstname: user.Firstname,
 		Lastname:  user.Lastname,
@@ -29,14 +32,15 @@ func (h *userHandler) GetUserByID(ctx *gin.Context) {
 }
 
 func (h *userHandler) GetMe(ctx *gin.Context) {
-	userService := GetUserServiceFromContext(ctx)
+	userService := getUserReaderServiceFromContext(ctx)
 	userID := ctx.MustGet("userID").(uint)
 
 	user, err := userService.GetByID(userID)
 	if err != nil {
+		errorHandler(ctx, err)
 	}
 
-	response := UserResponseDTO{
+	response := UserResponse{
 		ID:        user.ID,
 		Firstname: user.Firstname,
 		Lastname:  user.Lastname,
@@ -46,7 +50,7 @@ func (h *userHandler) GetMe(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
-type UserResponseDTO struct {
+type UserResponse struct {
 	ID        uint   `json:"id"`
 	Firstname string `json:"firstname"`
 	Lastname  string `json:"lastname"`

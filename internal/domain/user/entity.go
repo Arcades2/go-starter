@@ -5,6 +5,7 @@ import (
 	"net/mail"
 
 	"app/internal/domain/common"
+	"app/internal/domain/errors"
 )
 
 type User struct {
@@ -18,8 +19,8 @@ type User struct {
 	common.TimestampTracking
 }
 
-func (e *User) Validate() []error {
-	var errs []error
+func (e *User) Validate() error {
+	var errs []*errors.DomainError
 
 	if e.Email == "" || len(e.Email) > 255 {
 		errs = append(errs, NewUserError(UserErrors.ErrInvalidUser, "invalid email"))
@@ -43,5 +44,11 @@ func (e *User) Validate() []error {
 		errs = append(errs, NewUserError(UserErrors.ErrInvalidUser, "invalid refresh token"))
 	}
 
-	return errs
+	if len(errs) == 0 {
+		return &errors.ValidationError{
+			Errors: errs,
+		}
+	}
+
+	return nil
 }

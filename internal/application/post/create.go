@@ -6,11 +6,9 @@ import (
 )
 
 func (s *postService) Create(cmd CreatePostCommand) (*post.Post, error) {
-	_, err := s.reader.GetByID(cmd.AuthorID)
+	_, err := s.userReader.GetByID(cmd.AuthorID)
 	if err != nil {
-		return nil, s.HandleError(
-			errors.WithMessage(ErrPostCreateInvalid, "author not found"),
-		)
+		return nil, errors.WithMessage(ErrPostCreateInvalid, "author not found")
 	}
 
 	post := post.Post{
@@ -19,7 +17,10 @@ func (s *postService) Create(cmd CreatePostCommand) (*post.Post, error) {
 		AuthorID: cmd.AuthorID,
 	}
 
-	s.repository.Create(&post)
+	err = s.repository.Create(&post)
+	if err != nil {
+		return nil, ErrPostCreateFailed
+	}
 
 	return &post, nil
 }
