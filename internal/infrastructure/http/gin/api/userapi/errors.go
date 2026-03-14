@@ -5,7 +5,7 @@ import (
 
 	"app/internal/application/user"
 	"app/internal/domain/errors"
-	weberrors "app/internal/web/errors"
+	weberrors "app/internal/infrastructure/http/gin/errors"
 )
 
 var httpStatusMap = map[errors.ErrorCode]int{

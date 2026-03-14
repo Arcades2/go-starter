@@ -1,10 +1,10 @@
 package api
 
 import (
-	"app/internal/web/api/authapi"
-	"app/internal/web/api/middlewares"
-	"app/internal/web/api/postapi"
-	"app/internal/web/api/userapi"
+	"app/internal/infrastructure/http/gin/api/authapi"
+	"app/internal/infrastructure/http/gin/api/middlewares"
+	"app/internal/infrastructure/http/gin/api/postapi"
+	"app/internal/infrastructure/http/gin/api/userapi"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"

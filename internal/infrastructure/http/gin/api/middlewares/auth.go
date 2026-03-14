@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"app/internal/config"
-	"app/internal/infrastructure/auth"
+	infrajwt "app/internal/infrastructure/auth/jwt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -29,7 +29,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		tokenString := parts[1]
 
-		token, err := jwt.ParseWithClaims(tokenString, &auth.JwtClaims{}, func(token *jwt.Token) (interface{}, error) {
+		token, err := jwt.ParseWithClaims(tokenString, &infrajwt.JwtClaims{}, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, jwt.ErrSignatureInvalid
 			}
@@ -42,7 +42,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		claims, ok := token.Claims.(*auth.JwtClaims)
+		claims, ok := token.Claims.(*infrajwt.JwtClaims)
 		if !ok {
 			ctx.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token claims"})
 			ctx.Abort()

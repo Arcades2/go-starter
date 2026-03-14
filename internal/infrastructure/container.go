@@ -7,9 +7,9 @@ import (
 	auser "app/internal/application/user"
 	dpost "app/internal/domain/post"
 	duser "app/internal/domain/user"
-	"app/internal/infrastructure/bcrypt"
-	gormrepo "app/internal/infrastructure/gorm/repository"
-	"app/internal/infrastructure/jwt"
+	"app/internal/infrastructure/auth/bcrypt"
+	"app/internal/infrastructure/auth/jwt"
+	gormrepo "app/internal/infrastructure/persistence/gorm/repository"
 
 	"gorm.io/gorm"
 )

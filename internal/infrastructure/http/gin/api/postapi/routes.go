@@ -3,7 +3,7 @@ package postapi
 import (
 	"app/internal/application/post"
 	"app/internal/infrastructure"
-	"app/internal/infrastructure/gin/errors"
+	"app/internal/infrastructure/http/gin/errors"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"

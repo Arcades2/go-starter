@@ -5,8 +5,8 @@ import (
 	"log"
 
 	"app/internal/config"
-	infraGorm "app/internal/infrastructure/gorm"
-	"app/internal/web/api"
+	"app/internal/infrastructure/http/gin/api"
+	infraGorm "app/internal/infrastructure/persistence/gorm"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

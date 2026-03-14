@@ -2,8 +2,8 @@ package authapi
 
 import (
 	"app/internal/application/auth"
-	"app/internal/domain/services"
-	"app/internal/web/api/middlewares"
+	"app/internal/infrastructure"
+	"app/internal/infrastructure/http/gin/errors"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -11,8 +11,6 @@ import (
 
 func RegisterAuthRoutes(router *gin.Engine, db *gorm.DB) {
 	h := newAuthHandler()
-
-	router.Use(middlewares.RecoveryDomainError(httpStatusMap))
 
 	router.POST("/auth/login", h.Login)
 	router.POST("/auth/register", h.Register)
@@ -24,10 +22,12 @@ func newAuthHandler() *authHandler {
 	return &authHandler{}
 }
 
-func GetAuthServiceFromContext(ctx *gin.Context) auth.AuthService {
+func getAuthServiceFromContext(ctx *gin.Context) auth.AuthService {
 	tx := ctx.MustGet("tx").(*gorm.DB)
-	container := services.NewContainer(tx)
-	return container.GetAuthService(&services.ServiceSettings{
-		PanicOnError: true,
-	})
+	container := infrastructure.NewContainer(tx)
+	return container.GetAuthService()
 }
+
+var errorHandler = errors.NewErrorHandler(
+	httpStatusMap,
+)
