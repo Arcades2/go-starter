@@ -14,7 +14,13 @@ type Post struct {
 	common.TimestampTracking
 }
 
-// TODO: constructor function for Post
+func NewPost(title, content string, authorID uint) *Post {
+	return &Post{
+		Title:    title,
+		Content:  content,
+		AuthorID: authorID,
+	}
+}
 
 func (e *Post) Validate() error {
 	return nil

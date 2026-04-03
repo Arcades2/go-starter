@@ -11,18 +11,14 @@ func (s *postService) Create(cmd CreatePostCommand) (*post.Post, error) {
 		return nil, errors.WithMessage(ErrPostCreateInvalid, "author not found")
 	}
 
-	post := post.Post{
-		Title:    cmd.Title,
-		Content:  cmd.Content,
-		AuthorID: cmd.AuthorID,
-	}
+	post := post.NewPost(cmd.Title, cmd.Content, cmd.AuthorID)
 
-	err = s.repository.Create(&post)
+	err = s.repository.Create(post)
 	if err != nil {
 		return nil, ErrPostCreateFailed
 	}
 
-	return &post, nil
+	return post, nil
 }
 
 type CreatePostCommand struct {

@@ -19,6 +19,15 @@ type User struct {
 	common.TimestampTracking
 }
 
+func NewUser(email, firstname, lastname, hashedPassword string) *User {
+	return &User{
+		Email:          email,
+		Firstname:      firstname,
+		Lastname:       lastname,
+		HashedPassword: hashedPassword,
+	}
+}
+
 func (e *User) Validate() error {
 	var errs []*errors.DomainError
 

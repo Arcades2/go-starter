@@ -10,16 +10,16 @@ func (s *authService) Register(command RegisterCommand) (*user.User, error) {
 		return nil, ErrHashingPassword
 	}
 
-	newUser := user.User{
-		Email:          command.Email,
-		Firstname:      command.Firstname,
-		Lastname:       command.Lastname,
-		HashedPassword: hashedPassword,
-	}
+	newUser := user.NewUser(
+		command.Email,
+		command.Firstname,
+		command.Lastname,
+		hashedPassword,
+	)
 
-	err = s.userRepo.Create(&newUser)
+	err = s.userRepo.Create(newUser)
 
-	return &newUser, err
+	return newUser, err
 }
 
 type RegisterCommand struct {
