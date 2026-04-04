@@ -3,7 +3,6 @@ package userapi
 import (
 	"app/internal/application/user"
 	"app/internal/infrastructure"
-	"app/internal/infrastructure/http/gin/errors"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -27,7 +26,3 @@ func getUserReaderServiceFromContext(ctx *gin.Context) user.UserReader {
 	container := infrastructure.NewContainer(tx)
 	return container.GetUserReaderService()
 }
-
-var errorHandler = errors.NewErrorHandler(
-	httpStatusMap,
-)

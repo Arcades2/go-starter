@@ -3,7 +3,6 @@ package postapi
 import (
 	"app/internal/application/post"
 	"app/internal/infrastructure"
-	"app/internal/infrastructure/http/gin/errors"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -34,7 +33,3 @@ func getPostReaderServiceFromContext(ctx *gin.Context) post.PostReaderService {
 	container := infrastructure.NewContainer(tx)
 	return container.GetPostReaderService()
 }
-
-var errorHandler = errors.NewErrorHandler(
-	httpStatusMap,
-)

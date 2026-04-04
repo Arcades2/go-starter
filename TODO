@@ -1,4 +1,6 @@
 améliorer l'image docker (faire un dockerfile avec air pour le dev et un pour la
 prod)
 
-EventBus
+entité commentaire + queries et usecases
+
+Harmoniser la gestion des erreurs entre la couche domain et application. Registry partout, pas de duplicaiton d'erreur, forward des erreurs du domain dans la plupart des cas

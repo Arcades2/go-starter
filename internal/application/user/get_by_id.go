@@ -3,10 +3,10 @@ package user
 import "app/internal/domain/user"
 
 func (s *userReaderService) GetByID(ID uint) (*user.User, error) {
-	user, err := s.repository.FindByID(ID)
+	u, err := s.repository.FindByID(ID)
 	if err != nil {
-		return nil, ErrUserNotFound
+		return nil, user.ErrUserNotFound
 	}
 
-	return user, nil
+	return u, nil
 }

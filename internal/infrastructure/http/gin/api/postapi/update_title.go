@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"app/internal/application/post"
+	"app/internal/infrastructure/http/gin/errors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,7 +33,7 @@ func (h *postHandler) UpdatePostTitle(ctx *gin.Context) {
 		Title: request.Title,
 	})
 	if err != nil {
-		errorHandler(ctx, err)
+		errors.ErrorHandler(ctx, err)
 		return
 	}
 

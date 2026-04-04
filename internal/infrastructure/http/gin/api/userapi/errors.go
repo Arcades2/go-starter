@@ -3,15 +3,12 @@ package userapi
 import (
 	"net/http"
 
-	"app/internal/application/user"
-	"app/internal/domain/errors"
-	weberrors "app/internal/infrastructure/http/gin/errors"
+	"app/internal/domain/user"
+	"app/internal/infrastructure/http/gin/errors"
 )
 
-var httpStatusMap = map[errors.ErrorCode]int{
-	user.ErrUserNotFound.Code: http.StatusNotFound,
-}
-
 func init() {
-	weberrors.EnsureAllErrorsMapped(user.AllUserErrorCodes(), httpStatusMap)
+	errors.HTTPStatusMap[user.ErrUserNotFound.Code] = http.StatusNotFound
+
+	errors.EnsureAllErrorsMapped(user.AllUserErrorCodes())
 }

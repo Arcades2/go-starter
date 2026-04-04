@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"app/internal/infrastructure/http/gin/errors"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,7 +20,7 @@ func (h *userHandler) GetUserByID(ctx *gin.Context) {
 	}
 	user, err := userService.GetByID(uint(id))
 	if err != nil {
-		errorHandler(ctx, err)
+		errors.ErrorHandler(ctx, err)
 		return
 	}
 
@@ -38,7 +40,7 @@ func (h *userHandler) GetMe(ctx *gin.Context) {
 
 	user, err := userService.GetByID(userID)
 	if err != nil {
-		errorHandler(ctx, err)
+		errors.ErrorHandler(ctx, err)
 	}
 
 	response := UserResponse{

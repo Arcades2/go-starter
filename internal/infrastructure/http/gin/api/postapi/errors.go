@@ -3,18 +3,12 @@ package postapi
 import (
 	"net/http"
 
-	"app/internal/application/post"
-	"app/internal/domain/errors"
-	weberrors "app/internal/infrastructure/http/gin/errors"
+	"app/internal/domain/post"
+	"app/internal/infrastructure/http/gin/errors"
 )
 
-var httpStatusMap = map[errors.ErrorCode]int{
-	post.ErrPostNotFound.Code:      http.StatusNotFound,
-	post.ErrPostCreateInvalid.Code: http.StatusBadRequest,
-	post.ErrPostCreateFailed.Code:  http.StatusInternalServerError,
-	post.ErrPostUpdateInvalid.Code: http.StatusBadRequest,
-}
-
 func init() {
-	weberrors.EnsureAllErrorsMapped(post.AllPostErrorCodes(), httpStatusMap)
+	errors.HTTPStatusMap[post.ErrPostNotFound.Code] = http.StatusNotFound
+
+	errors.EnsureAllErrorsMapped(post.AllPostErrorCodes())
 }

@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"app/internal/infrastructure/http/gin/errors"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,7 +20,7 @@ func (h *postHandler) GetPostByID(ctx *gin.Context) {
 	}
 	post, err := postReader.GetByID(uint(id))
 	if err != nil {
-		errorHandler(ctx, err)
+		errors.ErrorHandler(ctx, err)
 		return
 	}
 

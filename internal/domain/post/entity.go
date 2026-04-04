@@ -2,6 +2,7 @@ package post
 
 import (
 	"app/internal/domain/common"
+	"app/internal/domain/errors"
 	"app/internal/domain/user"
 )
 
@@ -23,5 +24,25 @@ func NewPost(title, content string, authorID uint) *Post {
 }
 
 func (e *Post) Validate() error {
+	var errs []*errors.DomainError
+
+	if e.Title == "" || len(e.Title) > 255 {
+		errs = append(errs, ErrPostInvalidTitle)
+	}
+
+	if e.Content == "" {
+		errs = append(errs, ErrPostInvalidContent)
+	}
+
+	if e.AuthorID <= 0 {
+		errs = append(errs, ErrPostInvalidAuthorID)
+	}
+
+	if len(errs) > 0 {
+		return &errors.ValidationError{
+			Errors: errs,
+		}
+	}
+
 	return nil
 }

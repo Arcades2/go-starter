@@ -1,13 +1,14 @@
 package auth
 
 import (
+	"app/internal/domain/auth"
 	"app/internal/domain/user"
 )
 
 func (s *authService) Register(command RegisterCommand) (*user.User, error) {
 	hashedPassword, err := s.passwordHasher.HashPassword(command.Password)
 	if err != nil {
-		return nil, ErrHashingPassword
+		return nil, auth.ErrHashingPassword
 	}
 
 	newUser := user.NewUser(

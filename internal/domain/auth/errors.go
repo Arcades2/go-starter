@@ -7,11 +7,9 @@ var registry = errors.NewRegistry()
 var (
 	ErrInvalidCredentials    = registry.Register("INVALID_CREDENTIALS", "invalid credentials")
 	ErrFailedToGenerateToken = registry.Register("FAILED_GENERATE_TOKEN", "failed to generate token")
-	ErrUpdatingUser          = registry.Register("UPDATE_USER_FAILED", "failed to update user")
 	ErrRegisterInvalidInput  = registry.Register("REGISTER_INVALID_INPUT", "invalid input")
 	ErrLoginInvalidInput     = registry.Register("LOGIN_INVALID_INPUT", "invalid input")
 	ErrHashingPassword       = registry.Register("HASHING_PASSWORD_FAILED", "failed to hash password")
-	ErrUserNotFound          = registry.Register("USER_NOT_FOUND", "user not found")
 )
 
 func AllAuthErrorCodes() []errors.ErrorCode {

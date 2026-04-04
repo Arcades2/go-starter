@@ -1,13 +1,16 @@
 package errors
 
+import "strings"
+
 type ValidationError struct {
 	Errors []*DomainError
 }
 
 func (v *ValidationError) Error() string {
-	var errMsg string
+	var sb strings.Builder
 	for _, err := range v.Errors {
-		errMsg += err.Error() + "; "
+		sb.WriteString(err.Error())
+		sb.WriteString("; ")
 	}
-	return errMsg
+	return sb.String()
 }

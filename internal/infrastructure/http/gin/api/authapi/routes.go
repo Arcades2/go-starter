@@ -3,7 +3,6 @@ package authapi
 import (
 	"app/internal/application/auth"
 	"app/internal/infrastructure"
-	"app/internal/infrastructure/http/gin/errors"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -27,7 +26,3 @@ func getAuthServiceFromContext(ctx *gin.Context) auth.AuthService {
 	container := infrastructure.NewContainer(tx)
 	return container.GetAuthService()
 }
-
-var errorHandler = errors.NewErrorHandler(
-	httpStatusMap,
-)

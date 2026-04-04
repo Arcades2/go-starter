@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"app/internal/application/auth"
+	"app/internal/infrastructure/http/gin/errors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,7 +25,8 @@ func (h *authHandler) Login(c *gin.Context) {
 		Password: request.Password,
 	})
 	if err != nil {
-		errorHandler(c, err)
+		errors.ErrorHandler(c, err)
+
 		return
 	}
 

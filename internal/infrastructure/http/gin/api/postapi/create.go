@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"app/internal/application/post"
+	"app/internal/infrastructure/http/gin/errors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,7 +27,7 @@ func (h *postHandler) CreatePost(ctx *gin.Context) {
 		AuthorID: userID,
 	})
 	if err != nil {
-		errorHandler(ctx, err)
+		errors.ErrorHandler(ctx, err)
 		return
 	}
 

@@ -1,4 +1,3 @@
-// Package user defines the User entity and its fields, along with GORM annotations for database mapping.
 package user
 
 import (
@@ -32,25 +31,25 @@ func (e *User) Validate() error {
 	var errs []*errors.DomainError
 
 	if e.Email == "" || len(e.Email) > 255 {
-		errs = append(errs, NewUserError(UserErrors.ErrInvalidUser, "invalid email"))
+		errs = append(errs, ErrUserInvalidEmail)
 	} else if _, err := mail.ParseAddress(e.Email); err != nil {
-		errs = append(errs, NewUserError(UserErrors.ErrInvalidUser, "invalid email"))
+		errs = append(errs, ErrUserInvalidEmail)
 	}
 
 	if e.Firstname == "" || len(e.Firstname) > 255 {
-		errs = append(errs, NewUserError(UserErrors.ErrInvalidUser, "invalid firstname"))
+		errs = append(errs, ErrUserInvalidFirstname)
 	}
 
 	if e.Lastname == "" || len(e.Lastname) > 255 {
-		errs = append(errs, NewUserError(UserErrors.ErrInvalidUser, "invalid lastname"))
+		errs = append(errs, ErrUserInvalidLastname)
 	}
 
 	if e.HashedPassword == "" || len(e.HashedPassword) > 255 {
-		errs = append(errs, NewUserError(UserErrors.ErrInvalidUser, "invalid hashed password"))
+		errs = append(errs, ErrUserInvalidHashedPassword)
 	}
 
 	if e.RefreshToken != "" && len(e.RefreshToken) > 255 {
-		errs = append(errs, NewUserError(UserErrors.ErrInvalidUser, "invalid refresh token"))
+		errs = append(errs, ErrUserInvalidRefreshToken)
 	}
 
 	if len(errs) > 0 {
