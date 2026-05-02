@@ -11,12 +11,15 @@ func (s *authService) Register(command RegisterCommand) (*user.User, error) {
 		return nil, auth.ErrHashingPassword
 	}
 
-	newUser := user.NewUser(
+	newUser, err := user.NewUser(
 		command.Email,
 		command.Firstname,
 		command.Lastname,
 		hashedPassword,
 	)
+	if err != nil {
+		return nil, err
+	}
 
 	err = s.userRepo.Create(newUser)
 

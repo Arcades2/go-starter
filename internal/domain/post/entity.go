@@ -15,12 +15,15 @@ type Post struct {
 	common.TimestampTracking
 }
 
-func NewPost(title, content string, authorID uint) *Post {
-	return &Post{
+func NewPost(title, content string, authorID uint) (*Post, error) {
+	post := &Post{
 		Title:    title,
 		Content:  content,
 		AuthorID: authorID,
 	}
+	error := post.Validate()
+
+	return post, error
 }
 
 func (e *Post) Validate() error {

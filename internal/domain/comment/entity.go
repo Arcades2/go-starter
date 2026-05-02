@@ -17,12 +17,15 @@ type Comment struct {
 	common.TimestampTracking
 }
 
-func NewComment(content string, authorID *uint, postID uint) *Comment {
-	return &Comment{
+func NewComment(content string, authorID *uint, postID uint) (*Comment, error) {
+	comment := &Comment{
 		Content:  content,
 		AuthorID: authorID,
 		PostID:   postID,
 	}
+	err := comment.Validate()
+
+	return comment, err
 }
 
 func (e *Comment) Validate() error {

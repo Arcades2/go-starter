@@ -10,7 +10,10 @@ func (s *postService) Create(cmd CreatePostCommand) (*post.Post, error) {
 		return nil, err
 	}
 
-	post := post.NewPost(cmd.Title, cmd.Content, cmd.AuthorID)
+	post, err := post.NewPost(cmd.Title, cmd.Content, cmd.AuthorID)
+	if err != nil {
+		return nil, err
+	}
 
 	err = s.repository.Create(post)
 	if err != nil {

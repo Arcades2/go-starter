@@ -18,13 +18,16 @@ type User struct {
 	common.TimestampTracking
 }
 
-func NewUser(email, firstname, lastname, hashedPassword string) *User {
-	return &User{
+func NewUser(email, firstname, lastname, hashedPassword string) (*User, error) {
+	user := &User{
 		Email:          email,
 		Firstname:      firstname,
 		Lastname:       lastname,
 		HashedPassword: hashedPassword,
 	}
+	err := user.Validate()
+
+	return user, err
 }
 
 func (e *User) Validate() error {
